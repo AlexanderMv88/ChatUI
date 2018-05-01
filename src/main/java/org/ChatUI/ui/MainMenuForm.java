@@ -46,8 +46,8 @@ public class MainMenuForm extends Panel implements View {
         chatUserGrid.addColumn(ChatUser::getFullName).setCaption("ФИО");
 
         
-        Button addBtn = new Button("Добавить");
-        Button changeBtn = new Button("Изменить");
+        Button addBtn = new Button("Добавить", e ->  addChatUserWindow());
+        Button changeBtn = new Button("Изменить", e-> changeChatUserWindow());
         Button deleteBtn = new Button("Удалить");
         HorizontalLayout hLayout = new HorizontalLayout(addBtn,changeBtn,deleteBtn);
         vLayout.addComponents(lbl, chatUserGrid,hLayout);
@@ -70,6 +70,33 @@ public class MainMenuForm extends Panel implements View {
                 });
         List<ChatUser> chatUsers = chatUsersResponse.getBody();
         chatUserGrid.setItems(chatUsers);
+    }
+
+    private void addChatUserWindow() throws NullPointerException, IllegalArgumentException {
+        ChatUserWindow chatUserWindow = new ChatUserWindow();
+        getUI().addWindow(chatUserWindow);
+        chatUserWindow.addCloseListener(e1 -> {
+            refreshChatUsersGrid();
+        });
+    }
+
+    private void changeChatUserWindow() throws NullPointerException, IllegalArgumentException {
+        ChatUser chatUser;
+
+        if (chatUserGrid.asSingleSelect().getValue() != null) {
+            chatUser = chatUserGrid.asSingleSelect().getValue();
+
+            ChatUserWindow chatUserWindow = new ChatUserWindow(chatUser);
+            getUI().addWindow(chatUserWindow);
+            chatUserWindow.addCloseListener(e1 -> {
+                refreshChatUsersGrid();
+            });
+        }else{
+            new Notification("Внимание",
+                    "Выберите пользователя в таблице",
+                    Notification.Type.ERROR_MESSAGE, true)
+                    .show(Page.getCurrent());
+        }
     }
 
 }

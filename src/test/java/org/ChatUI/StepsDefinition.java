@@ -7,6 +7,7 @@ import cucumber.api.java.ru.Если;
 import cucumber.api.java.ru.И;
 import cucumber.api.java.ru.Когда;
 import cucumber.api.java.ru.То;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -46,7 +47,7 @@ public class StepsDefinition {
 
     @Когда("^я нажму кнопку '(.+)'")
     public void clickBtn1(String btnCaption){
-        $(byText(btnCaption)).click();
+        vaadinButtonClick(btnCaption);
     }
 
     @То("^откроется окно с полями:$")
@@ -57,7 +58,7 @@ public class StepsDefinition {
     }
 
     @Когда("^я введу в поле '(.+)' '(.+)'")
-    public void inputUsers(String fieldName1, String fieldVal1, String fieldName2, String fieldVal2){
+    public void inputUsers(String fieldName1, String fieldVal1){
         findFieldByUpperLabelAndSetValue(fieldName1, fieldVal1);
     }
 
@@ -76,7 +77,7 @@ public class StepsDefinition {
 
     @И("^нажму кнопку '(.+)'")
     public void clickBtn2(String btnCaption){
-        $(byText(btnCaption)).click();
+        vaadinButtonClick(btnCaption);
     }
 
     @То("^закроется текущее окно и отобразится страница '(.+)' с таблицей")
@@ -100,8 +101,12 @@ public class StepsDefinition {
 
     @И("^нажать кнопку '(.+)'")
     public void andPressBtn(String btnCaption){
-        $(byText(btnCaption)).click();
+        vaadinButtonClick(btnCaption);
 
+    }
+
+    private void vaadinButtonClick(String btnCaption) {
+        $(byText(btnCaption)).parent().parent().click();
     }
 
     @То("^увижу сообщение с заголовком '(.+)' и текстом '(.+)'")
@@ -113,6 +118,28 @@ public class StepsDefinition {
     @То("^таблица не будет содержать в себе '(.+)'")
     public void checkTableOnRemovedParam1(String param1){
         $(byText(param1)).shouldNot(Condition.appear);
+    }
+
+    @И("^'(.+)' будет содержать '(.+)'")
+    public void checkFieldData(String fieldName1, String fieldVal1){
+        System.out.println($(byText(fieldName1)).parent().attr("for"));
+        findFieldByUpperLabelAndCheckValue(fieldName1, fieldVal1);
+        System.out.println("Есс");
+
+    }
+
+    private void findFieldByUpperLabelAndCheckValue(String fieldName1, String fieldVal1) {
+        SelenideElement labelElement = $(By.className("v-window-wrap")).find(byText(fieldName1));
+        String idFor1 =  labelElement.parent().attr("for");
+
+        SelenideElement textFieldElement = $(byId(idFor1));
+        System.out.println("elem1 = " + textFieldElement.toString());
+        if (!textFieldElement.toString().contains("NoSuchElementException")){
+
+        }else{
+            textFieldElement = labelElement.parent().parent().find(By.tagName("input"));
+        }
+        Assert.assertEquals(textFieldElement.getValue(), fieldVal1);
     }
 
 
