@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.ChatUI.ui;
+package org.EmployeeUI.ui;
 
 import com.vaadin.ui.*;
-import org.ChatUI.entity.ChatUser;
+import org.EmployeeUI.entity.ChatUser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

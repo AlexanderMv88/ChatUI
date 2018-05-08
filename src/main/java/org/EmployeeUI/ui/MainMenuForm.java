@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.ChatUI.ui;
+package org.EmployeeUI.ui;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -20,7 +20,7 @@ import static com.vaadin.ui.UI.getCurrent;
 import com.vaadin.ui.VerticalLayout;
 import java.util.List;
 
-import org.ChatUI.entity.ChatUser;
+import org.EmployeeUI.entity.ChatUser;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
