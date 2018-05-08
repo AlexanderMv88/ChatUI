@@ -1,2 +1,2 @@
-# ChatUI
-UI works with ChatApi
+# EmployeeUI
+UI works with EmployeeApi
