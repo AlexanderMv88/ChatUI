@@ -13,6 +13,7 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.UI;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,7 +39,7 @@ public class NavigatorUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-
+        restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("Alexander", "12345"));
         navigator = new Navigator(this, this);
         navigator.addView(MAIN_MENU_FORM, mainMenuForm);
         navigator.navigateTo(MAIN_MENU_FORM);
