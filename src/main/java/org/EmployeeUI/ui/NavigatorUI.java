@@ -17,6 +17,7 @@ import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+
 /**
  *
  * @author user
@@ -31,10 +32,10 @@ public class NavigatorUI extends UI {
 
     public static final String MAIN_MENU_FORM = "mainMenuForm";
     public RestTemplate restTemplate = new RestTemplate();
-   
+
+
     @Autowired
     public NavigatorUI(){
-        
     }
 
     @Override

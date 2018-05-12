@@ -20,7 +20,7 @@ import static com.vaadin.ui.UI.getCurrent;
 import com.vaadin.ui.VerticalLayout;
 import java.util.List;
 
-import org.EmployeeUI.entity.ChatUser;
+import org.EmployeeUI.entity.Employee;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -36,25 +36,28 @@ public class MainMenuForm extends Panel implements View {
     private MenuBar menuBar = new MenuBar();
     private VerticalLayout vLayout = new VerticalLayout();
     private Label lbl = new Label();
-    private Grid<ChatUser> chatUserGrid = new Grid<ChatUser>("Пользователи");
+    private Grid<Employee> chatUserGrid = new Grid<Employee>("Пользователи");
 
     public void setLblTime(String currentTimeStr) {
         this.lbl.setCaption(currentTimeStr);
     }
 
     public MainMenuForm() {
-        chatUserGrid.addColumn(ChatUser::getFullName).setCaption("ФИО");
+        chatUserGrid.addColumn(Employee::getFullName).setCaption("ФИО");
 
         
         Button addBtn = new Button("Добавить", e ->  addChatUserWindow());
         Button changeBtn = new Button("Изменить", e-> changeChatUserWindow());
-        Button deleteBtn = new Button("Удалить");
+        Button deleteBtn = new Button("Удалить", e->removeEmployee());
         HorizontalLayout hLayout = new HorizontalLayout(addBtn,changeBtn,deleteBtn);
         vLayout.addComponents(lbl, chatUserGrid,hLayout);
         this.setContent(vLayout);
 
     }
 
+    private void removeEmployee() {
+
+    }
 
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
@@ -64,31 +67,31 @@ public class MainMenuForm extends Panel implements View {
 
     private void refreshChatUsersGrid() throws RestClientException {
         RestTemplate restTemplate = (RestTemplate) ((NavigatorUI) getCurrent()).restTemplate;
-        ResponseEntity<List<ChatUser>> chatUsersResponse
+        ResponseEntity<List<Employee>> chatUsersResponse
                 = restTemplate.exchange("http://localhost:8888/api/findAll",
-                        HttpMethod.GET, null, new ParameterizedTypeReference<List<ChatUser>>() {
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<Employee>>() {
                 });
-        List<ChatUser> chatUsers = chatUsersResponse.getBody();
+        List<Employee> chatUsers = chatUsersResponse.getBody();
         chatUserGrid.setItems(chatUsers);
     }
 
     private void addChatUserWindow() throws NullPointerException, IllegalArgumentException {
-        ChatUserWindow chatUserWindow = new ChatUserWindow();
-        getUI().addWindow(chatUserWindow);
-        chatUserWindow.addCloseListener(e1 -> {
+        EmployeeWindow employeeWindow = new EmployeeWindow();
+        getUI().addWindow(employeeWindow);
+        employeeWindow.addCloseListener(e1 -> {
             refreshChatUsersGrid();
         });
     }
 
     private void changeChatUserWindow() throws NullPointerException, IllegalArgumentException {
-        ChatUser chatUser;
+        Employee employee;
 
         if (chatUserGrid.asSingleSelect().getValue() != null) {
-            chatUser = chatUserGrid.asSingleSelect().getValue();
+            employee = chatUserGrid.asSingleSelect().getValue();
 
-            ChatUserWindow chatUserWindow = new ChatUserWindow(chatUser);
-            getUI().addWindow(chatUserWindow);
-            chatUserWindow.addCloseListener(e1 -> {
+            EmployeeWindow employeeWindow = new EmployeeWindow(employee);
+            getUI().addWindow(employeeWindow);
+            employeeWindow.addCloseListener(e1 -> {
                 refreshChatUsersGrid();
             });
         }else{

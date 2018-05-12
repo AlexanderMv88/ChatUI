@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ChatUiApplication {
+public class EmployeeUiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ChatUiApplication.class, args);
+		SpringApplication.run(EmployeeUiApplication.class, args);
 	}
 }

@@ -6,7 +6,7 @@
 package org.EmployeeUI.ui;
 
 import com.vaadin.ui.*;
-import org.EmployeeUI.entity.ChatUser;
+import org.EmployeeUI.entity.Employee;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -17,7 +17,7 @@ import java.lang.reflect.Field;
 import static com.vaadin.ui.UI.getCurrent;
 
 
-public class ChatUserWindow extends Window{
+public class EmployeeWindow extends Window{
     private Button actionBtn = new Button();
     private Button cancelBtn = new Button("Отмена", e-> this.close());
     private VerticalLayout mainLayout= new VerticalLayout();
@@ -25,15 +25,15 @@ public class ChatUserWindow extends Window{
     private TextField fioTField = new TextField("ФИО:");
 
     //upd
-    public ChatUserWindow(ChatUser chatUser) {
+    public EmployeeWindow(Employee employee) {
         actionBtn.setCaption("Применить");
         setCommonContent();
-        fioTField.setValue(chatUser.getFullName());
-        actionBtn.addClickListener(e -> changeObj(chatUser));
+        fioTField.setValue(employee.getFullName());
+        actionBtn.addClickListener(e -> changeObj(employee));
     }
     
     //new
-    public ChatUserWindow() {
+    public EmployeeWindow() {
         actionBtn.setCaption("Добавить пользователя");
         setCommonContent();
         
@@ -42,8 +42,8 @@ public class ChatUserWindow extends Window{
     
     private void addObj() {
 
-        ChatUser chatUser = new ChatUser();
-        chatUser.setFullName(fioTField.getValue());
+        Employee employee = new Employee();
+        employee.setFullName(fioTField.getValue());
         
         RestTemplate restTemplate = (RestTemplate) ((NavigatorUI) getCurrent()).restTemplate;
         
@@ -51,15 +51,17 @@ public class ChatUserWindow extends Window{
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
         // Data attached to the request.
-        HttpEntity<ChatUser> requestBody = new HttpEntity<>(chatUser, headers);
+        HttpEntity<Employee> requestBody = new HttpEntity<>(employee, headers);
         // Send request with POST method.
-        ChatUser e = restTemplate.postForObject("http://localhost:8888/api/addChatUser", requestBody, ChatUser.class);
+        Employee e = restTemplate.postForObject("http://localhost:8888/api/addChatUser", requestBody, Employee.class);
+
+
         this.close();
     }
     
-    private void changeObj(ChatUser oldChatUser) {
-        ChatUser chatUser = new ChatUser();
-        chatUser.setFullName(fioTField.getValue());
+    private void changeObj(Employee oldEmployee) {
+        Employee employee = new Employee();
+        employee.setFullName(fioTField.getValue());
         
         RestTemplate restTemplate = (RestTemplate) ((NavigatorUI) getCurrent()).restTemplate;
         
@@ -67,9 +69,9 @@ public class ChatUserWindow extends Window{
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
         // Data attached to the request.
-        HttpEntity<ChatUser> requestBody = new HttpEntity<>(chatUser, headers);
+        HttpEntity<Employee> requestBody = new HttpEntity<>(employee, headers);
         // Send request with POST method.
-        restTemplate.put("http://localhost:8888/api/changeChatUser/"+oldChatUser.getId(), requestBody, ChatUser.class);
+        restTemplate.put("http://localhost:8888/api/changeChatUser/"+ oldEmployee.getId(), requestBody, Employee.class);
         this.close();
     }
 
@@ -77,7 +79,7 @@ public class ChatUserWindow extends Window{
     
     private void setCommonContent(){
         
-        Field[] fields = ChatUser.class.getDeclaredFields();
+        Field[] fields = Employee.class.getDeclaredFields();
 
         vLayout.addComponents(fioTField);
         HorizontalLayout hLayout = new HorizontalLayout(actionBtn,cancelBtn);

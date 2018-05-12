@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/main/resources/feature/", plugin="pretty")
-public class ChatUiApplicationTests {
+public class EmployeeUiApplicationTests {
 
 	@Test
 	public void contextLoads() {
