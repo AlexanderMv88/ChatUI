@@ -52,17 +52,14 @@ public class MainMenuForm extends Panel implements View {
         HorizontalLayout hLayout = new HorizontalLayout(addBtn,changeBtn,deleteBtn);
         vLayout.addComponents(lbl, chatUserGrid,hLayout);
         this.setContent(vLayout);
-
     }
 
     private void removeEmployee() {
 
     }
 
-
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         refreshChatUsersGrid();
-
     }
 
     private void refreshChatUsersGrid() throws RestClientException {
@@ -101,5 +98,4 @@ public class MainMenuForm extends Panel implements View {
                     .show(Page.getCurrent());
         }
     }
-
 }

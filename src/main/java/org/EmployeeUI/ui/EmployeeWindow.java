@@ -74,8 +74,6 @@ public class EmployeeWindow extends Window{
         restTemplate.put("http://localhost:8888/api/changeChatUser/"+ oldEmployee.getId(), requestBody, Employee.class);
         this.close();
     }
-
-    
     
     private void setCommonContent(){
         
@@ -91,8 +89,4 @@ public class EmployeeWindow extends Window{
         this.setContent(mainLayout);
         
     }
-
-
-
-
 }
